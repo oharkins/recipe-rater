@@ -10,6 +10,7 @@ import { RecipeListComponent } from './components/recipe-list/recipe-list.compon
 import { RecipeCardComponent } from './components/recipe-card/recipe-card.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
+import { LoginComponent } from './components/login/login.component';
 import { SafePipe } from './shared/pipes/safe.pipe';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,7 +25,8 @@ import { AdminGuard } from './guards/admin.guard';
     FooterComponent,
     RecipeListComponent,
     RecipeCardComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
