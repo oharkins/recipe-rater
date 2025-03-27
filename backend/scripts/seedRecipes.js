@@ -58,7 +58,7 @@ async function fetchFileContent(url) {
 function parseRecipe(recipeData, userId) {
   try {
     // Debug the recipe data
-    console.log('Recipe data:', JSON.stringify(recipeData).substring(0, 200) + '...');
+    console.log('Full recipe data:', JSON.stringify(recipeData, null, 2));
     
     // Extract title from recipe name or data
     let recipeTitle = 'Untitled Recipe';
@@ -147,8 +147,12 @@ function parseRecipe(recipeData, userId) {
 
     // Process ingredients
     const processIngredients = (ingredients) => {
-      if (!ingredients) return [];
-      return ingredients.map(ing => {
+      console.log('Processing ingredients:', JSON.stringify(ingredients));
+      if (!ingredients) {
+        console.log('No ingredients found');
+        return [];
+      }
+      const processed = ingredients.map(ing => {
         if (typeof ing === 'string') {
           return { item: ing, amount: null, unit: null };
         }
@@ -158,14 +162,22 @@ function parseRecipe(recipeData, userId) {
           unit: ing.unit || null
         };
       });
+      console.log('Processed ingredients:', JSON.stringify(processed));
+      return processed;
     };
 
     // Process equipment
     const processEquipment = (equipment) => {
-      if (!equipment) return [];
-      return equipment.map(item => ({
+      console.log('Processing equipment:', JSON.stringify(equipment));
+      if (!equipment) {
+        console.log('No equipment found');
+        return [];
+      }
+      const processed = equipment.map(item => ({
         item: typeof item === 'string' ? item : item.item || ''
       }));
+      console.log('Processed equipment:', JSON.stringify(processed));
+      return processed;
     };
 
     // Map the GitHub recipe format to our database schema
@@ -192,8 +204,8 @@ function parseRecipe(recipeData, userId) {
         sugar: Number(recipeData.nutrition?.sugar) || null,
         sodium: Number(recipeData.nutrition?.sodium) || null
       },
-      allIngredients: processIngredients(recipeData.ingredients),
-      allEquipment: processEquipment(recipeData.equipment),
+      allIngredients: processIngredients(recipeData.allIngredients),
+      allEquipment: processEquipment(recipeData.allEquipment),
       prelude: {
         description: recipeData.description || recipeData.summary || recipeData.notes || recipeTitle,
         images: processImages(recipeData.image),
