@@ -63,6 +63,11 @@ export interface Rating {
   timestamp?: Date;
 }
 
+export interface User {
+  _id: string;
+  name: string;
+}
+
 export interface Recipe {
   _id?: string;
   author: string;
@@ -97,7 +102,7 @@ export interface Recipe {
   steps?: Step[];
   sections?: Section;
   ratings?: Rating[];
-  createdBy?: string;
+  createdBy?: User;
   averageRating?: number;
   createdAt?: Date;
   updatedAt?: Date;

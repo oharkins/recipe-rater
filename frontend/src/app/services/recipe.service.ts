@@ -40,9 +40,8 @@ export class RecipeService {
   }
 
   getRecipeById(id: string): Observable<Recipe> {
-    return this.http.get<{ recipe: Recipe }>(`${this.apiUrl}/${id}`).pipe(
+    return this.http.get<Recipe>(`${this.apiUrl}/${id}`).pipe(
       tap(response => console.log('Single recipe response:', response)),
-      map(response => response.recipe),
       catchError(error => {
         console.error('Error fetching recipe:', error);
         throw error;

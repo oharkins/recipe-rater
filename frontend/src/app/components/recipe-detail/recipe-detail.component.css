@@ -2,56 +2,58 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header Styles */
 .recipe-header {
-  text-align: center;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .recipe-title {
   font-size: 2.5rem;
-  color: #2c3e50;
   margin-bottom: 1rem;
+  color: #333;
 }
 
 .recipe-meta {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   color: #666;
 }
 
-.rating {
-  color: #f39c12;
+.recipe-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recipe-meta a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.recipe-meta a:hover {
+  text-decoration: underline;
 }
 
 /* Prelude Section */
 .recipe-prelude {
-  background-color: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .prelude-media {
   margin-top: 1rem;
 }
 
-.prelude-media .images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
 .prelude-media img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: 8px;
-  object-fit: cover;
+  margin: 0.5rem;
 }
 
 .video-container {
@@ -59,7 +61,7 @@
   padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 
 .video-container iframe {
@@ -72,10 +74,9 @@
 
 /* Recipe Info */
 .recipe-info {
-  background-color: #fff;
+  background-color: #f8f9fa;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
 }
 
@@ -90,69 +91,95 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .info-item i {
-  color: #3498db;
+  color: #007bff;
+  font-size: 1.2rem;
 }
 
 .dietary-restrictions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
 .badge {
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.875rem;
-}
-
-.badge-info {
-  background-color: #3498db;
-  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .badge-success {
-  background-color: #2ecc71;
+  background-color: #28a745;
   color: white;
 }
 
 .badge-warning {
-  background-color: #f1c40f;
+  background-color: #ffc107;
   color: black;
 }
 
 .badge-danger {
-  background-color: #e74c3c;
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.badge-secondary {
+  background-color: #6c757d;
   color: white;
 }
 
 /* Ingredients and Equipment */
 .ingredients-section,
-.equipment-section {
-  background-color: #fff;
+.equipment-section,
+.instructions-section,
+.nutrition-section,
+.storage-section,
+.metadata-section {
+  margin-bottom: 2rem;
   padding: 1.5rem;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
 }
 
 .ingredients-list,
 .equipment-list {
   list-style: none;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 0.5rem;
 }
 
 .ingredients-list li,
 .equipment-list li {
-  padding: 0.5rem;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ingredients-list li::before,
+.equipment-list li::before {
+  content: "•";
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+.ingredients-list li:last-child,
+.equipment-list li:last-child {
+  border-bottom: none;
 }
 
 /* Instructions */
@@ -180,15 +207,12 @@
 .step {
   display: flex;
   gap: 1rem;
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-radius: 8px;
 }
 
 .step-number {
   width: 2rem;
   height: 2rem;
-  background-color: #3498db;
+  background-color: #007bff;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -202,24 +226,31 @@
   flex-grow: 1;
 }
 
+.step-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
 .step-ingredients,
 .step-equipment {
   margin-top: 0.5rem;
-  font-size: 0.9rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
 }
 
 .step-images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
   margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .step-images img {
-  width: 100%;
+  max-width: 200px;
   height: auto;
   border-radius: 4px;
-  object-fit: cover;
 }
 
 /* Nutrition */
@@ -235,26 +266,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
 }
 
-.nutrition-grid > div {
+.nutrition-grid div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: #f8f9fa;
   border-radius: 4px;
 }
 
 .nutrition-grid .label {
-  font-weight: bold;
+  font-size: 0.9rem;
   color: #666;
+  margin-bottom: 0.25rem;
 }
 
 .nutrition-grid .value {
-  font-size: 1.2rem;
-  color: #2c3e50;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Storage */
@@ -263,6 +294,32 @@
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Metadata */
+.metadata-section {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.metadata-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metadata-item i {
+  color: #007bff;
 }
 
 /* Responsive Design */
@@ -275,24 +332,40 @@
     font-size: 2rem;
   }
 
+  .recipe-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nutrition-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metadata-grid {
     grid-template-columns: 1fr;
   }
 
   .step {
     flex-direction: column;
   }
-
+  
   .step-number {
-    align-self: flex-start;
+    margin-bottom: 0.5rem;
   }
 }
 
 /* Section Headers */
 h2 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
   font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
 }
 
 h3 {
