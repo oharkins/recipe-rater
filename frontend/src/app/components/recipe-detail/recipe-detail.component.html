@@ -1,0 +1,167 @@
+<!-- Loading State -->
+<div *ngIf="loading" class="text-center">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  {{ error }}
+</div>
+
+<!-- Recipe Detail -->
+<div class="recipe-detail" *ngIf="!loading && !error && recipe">
+  <!-- Header Section -->
+  <div class="recipe-header">
+    <h1 class="recipe-title">{{ recipe.recipe }}</h1>
+    <div class="recipe-meta">
+      <span class="author">By {{ recipe.author }}</span>
+      <span class="rating" *ngIf="recipe.averageRating">
+        <i class="fas fa-star"></i> {{ recipe.averageRating | number:'1.1-1' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Prelude Section -->
+  <div class="recipe-prelude" *ngIf="recipe.prelude">
+    <p>{{ recipe.prelude.description }}</p>
+    <div class="prelude-media" *ngIf="recipe.prelude.images || recipe.prelude.videos">
+      <div class="images" *ngIf="recipe.prelude.images">
+        <img *ngFor="let image of recipe.prelude.images" [src]="image.src" [alt]="image.description">
+      </div>
+      <div class="videos" *ngIf="recipe.prelude.videos">
+        <div *ngFor="let video of recipe.prelude.videos" class="video-container">
+          <iframe *ngIf="video.youtube" [src]="video.youtube | safe" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recipe Info -->
+  <div class="recipe-info">
+    <div class="info-grid">
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        <span>Total Time: {{ formatTime(recipe.totalTime) }}</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-users"></i>
+        <span>Servings: {{ recipe.servings }}</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-utensils"></i>
+        <span>Difficulty: <span [class]="getDifficultyClass(recipe.difficulty)">{{ recipe.difficulty }}</span></span>
+      </div>
+      <div class="info-item" *ngIf="recipe.cuisine">
+        <i class="fas fa-globe"></i>
+        <span>Cuisine: {{ recipe.cuisine }}</span>
+      </div>
+    </div>
+
+    <!-- Dietary Restrictions -->
+    <div class="dietary-restrictions" *ngIf="recipe.dietaryRestrictions?.length">
+      <span *ngFor="let restriction of recipe.dietaryRestrictions" class="badge badge-info">
+        {{ restriction }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Ingredients -->
+  <div class="ingredients-section">
+    <h2>Ingredients</h2>
+    <ul class="ingredients-list">
+      <li *ngFor="let ingredient of recipe.allIngredients">
+        {{ formatIngredient(ingredient) }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Equipment -->
+  <div class="equipment-section" *ngIf="recipe.allEquipment?.length">
+    <h2>Equipment</h2>
+    <ul class="equipment-list">
+      <li *ngFor="let item of recipe.allEquipment">{{ item.item }}</li>
+    </ul>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instructions-section">
+    <h2>Instructions</h2>
+    <div *ngIf="recipe.preheat" class="preheat">
+      <strong>Preheat:</strong> {{ recipe.preheat }}°{{ recipe.temperatureUnit === 'celsius' ? 'C' : 'F' }}
+    </div>
+    
+    <div *ngIf="recipe.sections">
+      <div class="section">
+        <h3>{{ recipe.sections.name }}</h3>
+        <div class="steps">
+          <div *ngFor="let step of recipe.sections.steps; let i = index" class="step">
+            <div class="step-number">{{ i + 1 }}</div>
+            <div class="step-content">
+              <p>{{ step.description }}</p>
+              <div *ngIf="step.ingredients?.length" class="step-ingredients">
+                <strong>Ingredients needed:</strong>
+                <ul>
+                  <li *ngFor="let ingredient of step.ingredients">
+                    {{ formatIngredient(ingredient) }}
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="step.equipment?.length" class="step-equipment">
+                <strong>Equipment needed:</strong>
+                <ul>
+                  <li *ngFor="let item of step.equipment">{{ item.item }}</li>
+                </ul>
+              </div>
+              <div *ngIf="step.images?.length" class="step-images">
+                <img *ngFor="let image of step.images" [src]="image.src" [alt]="image.description">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition -->
+  <div class="nutrition-section" *ngIf="recipe.nutrition">
+    <h2>Nutrition Information</h2>
+    <div class="nutrition-grid">
+      <div *ngIf="recipe.nutrition.calories">
+        <span class="label">Calories:</span>
+        <span class="value">{{ recipe.nutrition.calories }} kcal</span>
+      </div>
+      <div *ngIf="recipe.nutrition.protein">
+        <span class="label">Protein:</span>
+        <span class="value">{{ recipe.nutrition.protein }}g</span>
+      </div>
+      <div *ngIf="recipe.nutrition.carbohydrates">
+        <span class="label">Carbohydrates:</span>
+        <span class="value">{{ recipe.nutrition.carbohydrates }}g</span>
+      </div>
+      <div *ngIf="recipe.nutrition.fat">
+        <span class="label">Fat:</span>
+        <span class="value">{{ recipe.nutrition.fat }}g</span>
+      </div>
+      <div *ngIf="recipe.nutrition.fiber">
+        <span class="label">Fiber:</span>
+        <span class="value">{{ recipe.nutrition.fiber }}g</span>
+      </div>
+      <div *ngIf="recipe.nutrition.sugar">
+        <span class="label">Sugar:</span>
+        <span class="value">{{ recipe.nutrition.sugar }}g</span>
+      </div>
+      <div *ngIf="recipe.nutrition.sodium">
+        <span class="label">Sodium:</span>
+        <span class="value">{{ recipe.nutrition.sodium }}mg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storage -->
+  <div class="storage-section" *ngIf="recipe.storage">
+    <h2>Storage</h2>
+    <p>{{ recipe.storage }}</p>
+  </div>
+</div>
